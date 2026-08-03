@@ -1,85 +1,215 @@
-Master-Mind (F28HS)
-Implemented the master-mind game in C and ASM to run on an embedded system like raspberry Pi. We've compiled and tested this on a Raspberry Pi 3 Model B and it compiles successfully and passes all tests as expected.
+# Mastermind – Embedded Systems Game
 
-The CW specification is here
+A hardware-based implementation of the classic **Mastermind** game, developed using **C** and **ARM Assembly** for the Raspberry Pi.
 
-Use Canvas groups (People -> Groups) to sign-up as a pair for this pair project.
+The project combines high-level game logic written in C with low-level ARM Assembly routines for sequence matching and hardware interaction. It was compiled and tested successfully on a **Raspberry Pi 3 Model B**, where it passed the provided unit tests.
 
-Links:
+## Project Overview
 
-You can use any machine with an installation of the gcc C compiler for running the C code of the game logic
-Template for the C program: master-mind.c
-Template for the ARM Assembler program: mm-matches.s
-Contents
-This folder contains the following CW2 specification template files for the source code and for the report:
+The player attempts to guess a hidden sequence of numbers. After each attempt, the system provides feedback using:
 
-master-mind.c ... the main C program for the CW implementation, and most aux fcts
-mm-matches.s ... the matching function, implemented in ARM Assembler
-lcdBinary.c ... the low-level code for hardware interaction with LED, button, and LCD; this should be implemented in inline Assembler;
-testm.c ... a testing function to test C vs Assembler implementations of the matching function
-test.sh ... a script for unit testing the matching function, using the -u option of the main prg
-Gitlab usage
-Fork and Clone this gitlab repo to get started on the coursework.
+* **Exact matches** – correct value in the correct position
+* **Approximate matches** – correct value in the wrong position
+* **Green and red LEDs**
+* **Push button input**
+* **LCD display output**
 
-Complete the functions in master-mind.c and in lcdBinary.c. Initially, you can implement these as C functions. However, for the final implementation, the low-level functions for controlling LED, button, and LCD display should be implemented in inline Assembler (in lcdBinary.c). Note that the matching function, for calculating the number of exact and approximate matches also needs to be implemented in ARM Assembler. The file mm-matches.s contains a template this Assembler code.
+The project demonstrates:
 
-You can test basic functionality by using the testm.c C function and the test.sh shell script (see below).
+* C and ARM Assembly integration
+* Embedded systems programming
+* GPIO input and output
+* LCD control
+* Low-level hardware interaction
+* Automated unit testing
+* GitLab CI integration
 
-Push to the repo and ask questions in the comments box to get help.
+## Technologies Used
 
-Building and running the application
-You can build the main C program (in master-mind.c), and the testm.c testing function, by typing
+* C
+* ARM Assembly
+* GCC
+* GNU Make
+* Bash
+* Raspberry Pi GPIO
+* GitLab CI/CD
 
+## Hardware Requirements
+
+The project was tested using a **Raspberry Pi 3 Model B**.
+
+The following components are required:
+
+* Raspberry Pi
+* 16×2 LCD display
+* Green LED
+* Red LED
+* Push button
+* Potentiometer
+* Current-limiting resistors
+* Breadboard
+* Jumper wires
+
+## GPIO Connections
+
+| Component   | GPIO Pin |
+| ----------- | -------: |
+| Green LED   |  GPIO 13 |
+| Red LED     |   GPIO 5 |
+| Push button |  GPIO 19 |
+
+The LCD should be connected to the Raspberry Pi according to the wiring diagram supplied with the project specification.
+
+> Resistors should be used with the LEDs and push button. A potentiometer is also required to control the LCD contrast.
+
+## Project Structure
+
+```text
+.
+├── master-mind.c
+├── mm-matches.s
+├── lcdBinary.c
+├── testm.c
+├── test.sh
+├── Makefile
+└── .gitlab-ci.yml
+```
+
+### `master-mind.c`
+
+Contains the main Mastermind game logic, command-line processing and supporting functions.
+
+### `mm-matches.s`
+
+Contains the ARM Assembly implementation of the matching algorithm used to calculate exact and approximate matches.
+
+### `lcdBinary.c`
+
+Contains the low-level functions used to control the LEDs, push button and LCD display. Hardware-control operations are implemented using inline ARM Assembly.
+
+### `testm.c`
+
+Contains testing functions used to compare the C and ARM Assembly implementations of the matching algorithm.
+
+### `test.sh`
+
+A shell script used to perform automated unit testing of the matching function.
+
+### `.gitlab-ci.yml`
+
+Runs the test suite automatically through GitLab CI whenever changes are pushed to the repository.
+
+## Building the Project
+
+Ensure that GCC and Make are installed.
+
+To compile the application and testing components, run:
+
+```bash
 make all
+```
 
-and run the Master Mind program in debug mode by typing
+## Running the Game
 
+To run the Mastermind application in debug mode:
+
+```bash
 make run
+```
 
-and do unit testing on the matching function
+The general command-line format is:
 
+```bash
+./cw2 [-v] [-d] [-s] <secret-sequence> [-u <sequence1> <sequence2>]
+```
+
+### Available Options
+
+| Option | Description                                  |
+| ------ | -------------------------------------------- |
+| `-v`   | Enables verbose output                       |
+| `-d`   | Enables debug mode                           |
+| `-s`   | Uses a manually supplied secret sequence     |
+| `-u`   | Runs the matching function in unit-test mode |
+
+## Unit Testing
+
+To run the automated unit tests:
+
+```bash
 make unit
+```
 
-or alternatively check C vs Assembler version of the matching function
+Alternatively, run the test script directly:
 
-make test
-
-For the Assembler part, you need to edit the mm-matches.s file, compile and test this version on the Raspberry Pi. See the test input data in the secret and guess structures at the end of the file, for testing.
-
-After having tested the components separately, integrate both so that the C program (in master-mind.c) calls the ARM Assembler code (in mm-matches.s) for the matching function. For controlling the external devices of LED, LCD and button use inline Assembler code, as discussed in the matching lecture in the course.
-
-The final version of the code should be pushed to this repo, and also submitted through Canvas, together with the report and video.
-
-A test script is available to do unit-testing of the matching function. Run it like this from the command line
-
+```bash
 sh ./test.sh
+```
 
-To test whether all tests have been successful you can do
+To verify whether every test completed successfully:
 
+```bash
 echo $?
+```
 
-which should print 0.
+A return value of `0` indicates that all tests passed.
 
-If you picked up the .gitlab-ci.yml file in this repo, this test will be done automatically when uploading the file and you will get either a Pass or Fail in the CI section of the gitlab-student server.
+## Comparing C and Assembly Implementations
 
-Unit testing
-This is an example of doing unit-testing on 2 sequences (C part only):
+To compare the output of the C and ARM Assembly matching functions:
 
-> ./cw2 -u 121 313
+```bash
+make test
+```
+
+This verifies that both implementations produce the same number of exact and approximate matches.
+
+## Unit-Test Example
+
+The following command compares the sequences `121` and `313`:
+
+```bash
+./cw2 -u 121 313
+```
+
+Expected output:
+
+```text
 0 exact matches
 1 approximate matches
-The general format for the command line is as follows (see template code in master-mind.c for processing command line options):
+```
 
-./cw2 [-v] [-d] [-s] <secret sequence> [-u <sequence1> <sequence2>]
-Wiring
-An green LED, as output device, should be connected to the RPi2 using GPIO pin 13.
+## Implementation Details
 
-A red LED, as output device, should be connected to the RPi2 using GPIO pin 5.
+The matching algorithm was initially implemented in C and then recreated in ARM Assembly.
 
-A Button, as input device, should be connected to the RPi2 using GPIO pin 19.
+The final application integrates both languages by calling the Assembly matching function from the main C program.
 
-An LCD display, with a potentiometer to control contrast, should be wired to the Raspberry by as shown in the Fritzing diagram below.
+The hardware-control functions for the following components are implemented using inline Assembly:
 
-You will need resistors to control the current to the LED and from the Button. You will also need a potentiometer to control the contrast of the LCD display.
+* Green LED
+* Red LED
+* Push button
+* LCD display
 
-The Fritzing diagram below visualises this wiring.
+The project components were first tested independently before being integrated into the complete embedded application.
+
+## Testing and Compatibility
+
+The project has been:
+
+* Compiled successfully using GCC
+* Tested on a Raspberry Pi 3 Model B
+* Verified using the provided shell-based unit tests
+* Tested by comparing the C and Assembly implementations
+* Configured for automatic testing through GitLab CI
+
+## Coursework Specification
+
+The original coursework specification can be found here:
+
+[Coursework Specification]((https://www.macs.hw.ac.uk/~hwloidl/Courses/F28HS/Coursework_F28HS_CW2_2024.pdf))
+
+
+![Raspberry Pi Wiring Diagram](ADD_DIAGRAM_PATH_OR_URL_HERE)
+```
