@@ -208,8 +208,6 @@ The project has been:
 
 The original coursework specification can be found here:
 
-[Coursework Specification]((https://www.macs.hw.ac.uk/~hwloidl/Courses/F28HS/Coursework_F28HS_CW2_2024.pdf))
+[Coursework Specification]([https://www.macs.hw.ac.uk/~hwloidl/Courses/F28HS/Coursework_F28HS_CW2_2024.pdf])
 
-
-![Raspberry Pi Wiring Diagram](ADD_DIAGRAM_PATH_OR_URL_HERE)
 ```
