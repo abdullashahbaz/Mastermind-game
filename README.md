@@ -94,9 +94,6 @@ Contains testing functions used to compare the C and ARM Assembly implementation
 
 A shell script used to perform automated unit testing of the matching function.
 
-### `.gitlab-ci.yml`
-
-Runs the test suite automatically through GitLab CI whenever changes are pushed to the repository.
 
 ## Building the Project
 
