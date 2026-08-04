@@ -71,8 +71,7 @@ The LCD should be connected to the Raspberry Pi according to the wiring diagram 
 ├── lcdBinary.c
 ├── testm.c
 ├── test.sh
-├── Makefile
-└── .gitlab-ci.yml
+└── Makefile
 ```
 
 ### `master-mind.c`
